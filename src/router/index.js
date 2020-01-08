@@ -51,15 +51,15 @@ const router = new VueRouter({
   routes
 })
 // 路由拦截器
-router.beforeEach((to, from, next) => {
-  if (to.path === '/about') {
-    // 权限检查
-    console.log(1)
-    // 跳转
-    next('/index')
-  } else {
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if (to.path === '/about') {
+//     // 权限检查
+//     console.log(1)
+//     // 跳转
+//     next('/index')
+//   } else {
+//     next()
+//   }
+// })
 
 export default router

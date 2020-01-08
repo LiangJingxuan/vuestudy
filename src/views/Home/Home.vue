@@ -43,13 +43,16 @@ export default {
   },
   methods: {
     handleScroll () {
-      console.log(document.documentElement.scrollTop)
+      // console.log(document.documentElement.scrollTop)
       if (document.documentElement.scrollTop > this.$refs.moveswiper.$el.offsetHeight) {
         this.isFixed = true
       } else {
         this.isFixed = false
       }
     }
+  },
+  destroyed () {
+    window.onscroll = null
   },
   // 组件内拦截器
   beforeEnter: (to, from, next) => {

@@ -21,6 +21,7 @@
 <script>
 import axios from 'axios'
 import detailswiper from './DetailSwiper'
+import bus from '@/bus'
 export default {
   data () {
     return {
@@ -28,6 +29,7 @@ export default {
     }
   },
   mounted () {
+    bus.$emit('navbar', false)
     axios({
       url: `https://m.maizuo.com/gateway?filmId=${this.$route.params.id}&k=2472780`,
       headers: {
@@ -37,6 +39,9 @@ export default {
     }).then(res => {
       this.filminfo = res.data.data.film
     })
+  },
+  beforeDestroy () {
+    bus.$emit('navbar', true)
   },
   components: {
     detailswiper
