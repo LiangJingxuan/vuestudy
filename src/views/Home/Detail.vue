@@ -21,7 +21,8 @@
 <script>
 import axios from 'axios'
 import detailswiper from './DetailSwiper'
-import bus from '@/bus'
+// import bus from '@/bus'
+import { SHOWTABBARMUTAION, HIDETABBARMUTAION } from '@/type'
 export default {
   data () {
     return {
@@ -29,7 +30,9 @@ export default {
     }
   },
   mounted () {
-    bus.$emit('navbar', false)
+    // bus.$emit('navbar', false)
+    // this.$store.state.isTabbarShow = false
+    this.$store.commit(HIDETABBARMUTAION, false)
     axios({
       url: `https://m.maizuo.com/gateway?filmId=${this.$route.params.id}&k=2472780`,
       headers: {
@@ -41,7 +44,13 @@ export default {
     })
   },
   beforeDestroy () {
-    bus.$emit('navbar', true)
+    // bus解决跨组件传值
+    // bus.$emit('navbar', true)
+
+    // vuex解决跨组件传值
+    // this.$store.state.isTabbarShow = false
+
+    this.$store.commit(SHOWTABBARMUTAION, true)
   },
   components: {
     detailswiper
