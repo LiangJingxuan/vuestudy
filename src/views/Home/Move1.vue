@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul>
+    <ul v-infinite-scroll="loadMore" :infinite-scroll-immediate-check="false" :infinite-scroll-disabled="isInfinite">
         <li v-for="l in list" :key="l.filmId" @click="handleClick(l.filmId)">
             <div class="lazy-img" alt="film">
               <img :src="l.poster" class="target-img">
@@ -33,23 +33,48 @@ import '@/filter/actorsFilter'
 export default {
   data () {
     return {
-      list: []
+      list: [],
+      isInfinite: false,
+      page: 1,
+      total: 0
     }
   },
   methods: {
     handleClick (id) {
       this.$router.push(`/detail/${id}`)
+    },
+    // 下拉加载
+    loadMore () {
+      // console.log(1)
+      this.page++
+      this.isInfinite = true // 禁用无限滚动
+
+      if (this.list.length === this.total) {
+        return
+      }
+      axios({
+        url: `https://m.maizuo.com/gateway?cityId=110100&pageNum=${this.page}&pageSize=5&type=1&k=661073`,
+        headers: {
+          'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"15782798251090921693185","bc":"110100"}',
+          'X-Host': 'mall.film-ticket.film.list'
+        }
+      }).then(res => {
+        console.log(res)
+        this.list = [...this.list, ...res.data.data.films]
+        this.isInfinite = false // 开启无限滚动
+      })
     }
   },
   mounted () {
     axios({
-      url: 'https://m.maizuo.com/gateway?cityId=110100&pageNum=1&pageSize=20&type=1&k=661073',
+      url: 'https://m.maizuo.com/gateway?cityId=110100&pageNum=1&pageSize=5&type=1&k=661073',
       headers: {
         'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"15782798251090921693185","bc":"110100"}',
         'X-Host': 'mall.film-ticket.film.list'
       }
     }).then(res => {
       this.list = res.data.data.films
+      this.total = res.data.data.total
     })
   }
 }

@@ -16,6 +16,12 @@
           <img :src="p" alt="">
         </div>
       </detailswiper>
+
+      <mt-button type="default">default</mt-button>
+      <mt-button type="primary">primary</mt-button>
+      <mt-button type="danger">danger</mt-button>
+
+      <mt-badge type="error">2</mt-badge>
     </div>
 </template>
 <script>
@@ -23,6 +29,7 @@ import axios from 'axios'
 import detailswiper from './DetailSwiper'
 // import bus from '@/bus'
 import { SHOWTABBARMUTAION, HIDETABBARMUTAION } from '@/type'
+import { Button, Badge } from 'mint-ui'
 export default {
   data () {
     return {
@@ -53,7 +60,9 @@ export default {
     this.$store.commit(SHOWTABBARMUTAION, true)
   },
   components: {
-    detailswiper
+    detailswiper,
+    'mt-button': Button,
+    'mt-badge': Badge
   }
 }
 </script>
